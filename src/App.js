@@ -3,6 +3,8 @@ import './App.css';
 import Homepage from './Homepage/Homepage';
 import {Route, Link} from 'react-router-dom';
 import './App.css';
+import Header from './Header/Header';
+import Footer from './Footer/Footer';
 
 class App extends Component {
 
@@ -12,7 +14,7 @@ class App extends Component {
       exact
       path='/'
       render={() => {
-        return (<Homepage />)
+        return (<body><Header /><Homepage /><Footer /></body>)
       }}
       />
     )
