@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import './App.css';
-import Homepage from './Homepage/Homepage';
+import Homepage from './Homepage';
 import {Route, Link} from 'react-router-dom';
-import './App.css';
-import Header from './Header/Header';
-import Footer from './Footer/Footer';
+import Header from './Header';
+import Footer from './Footer';
+import Login from './Login';
 
 class App extends Component {
 
   renderMainRoutes() {
     return (
+      <>
       <Route 
       exact
       path='/'
@@ -17,6 +18,14 @@ class App extends Component {
         return (<body><Header /><Homepage /><Footer /></body>)
       }}
       />
+      <Route
+      exact
+      path='/login'
+      render={() => {
+        return (<body><Header /><Login /><Footer /></body>)
+      }}
+      />
+      </>
     )
   }
 
