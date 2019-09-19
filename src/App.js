@@ -15,14 +15,14 @@ class App extends Component {
       exact
       path='/'
       render={() => {
-        return (<body><Header /><Homepage /><Footer /></body>)
+        return (<body><Header /><Homepage navLinks="loggedOut"/><Footer /></body>)
       }}
       />
       <Route
       exact
       path='/login'
       render={() => {
-        return (<body><Header /><Login /><Footer /></body>)
+        return (<body><Header /><Login navLinks="loggedOut"/><Footer /></body>)
       }}
       />
       </>

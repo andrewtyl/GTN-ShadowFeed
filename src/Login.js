@@ -5,15 +5,26 @@ import { GoogleLogin } from 'react-google-login';
 const responseGoogle = (res) => {
     console.log(res)
     console.log(res.accessToken);
-    fetch('http://localhost:8000/api/googleAuth/validateToken', {
-        method: 'GET',
+    fetch('http://localhost:8000/googleAuth/validateToken', {
+        method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'authorization': JSON.stringify({ token: res.accessToken, email: res.profileObj.email, googleId: res.googleId })
-        }
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ access_token: res.accessToken, email: res.profileObj.email, google_id: res.googleId })
     })
         .then(res => {
-            console.log(res)
+            return res.json()
+        })
+        .then(parsedRes => {
+            console.log(parsedRes)
+            if(parsedRes.error) {
+                console.log("There was an error!")
+            }
+            else{
+                console.log("User is valid!")
+                console.log(parsedRes.user_id)
+            }
         })
 }
 
