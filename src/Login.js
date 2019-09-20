@@ -2,64 +2,65 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 
-const responseGoogle = (res) => {
-    fetch('http://holorecord.ajessen.com/googleAuth/validateToken', {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ access_token: res.accessToken, email: res.profileObj.email, google_id: res.googleId })
-    })
-        .then(res => {
-            return res.json()
-        })
-        .then(parsedRes => {
-            if (parsedRes.error) {
-                alert("Login failed. Refreshing page...")
-                window.location.reload();
-            }
-            else {
-                fetch('http://holorecord.ajessen.com/users/exists', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ google_id: parsedRes.user_id })
-                })
-                    .then(usersRes => {
-                        return usersRes.json()
-                    })
-                    .then(parsedUserRes => {
-                        console.log(parsedUserRes)
-                        if (!parsedUserRes.error) {
-                            window.localStorage.setItem('user_id', parsedUserRes.user_id)
-                            window.location.href = "/main"
-                        }
-                        else if (parsedUserRes.error === "User could not be found or does not exist") {
-                            window.localStorage.setItem('gid', parsedRes.user_id)
-                            window.localStorage.setItem('user_email', parsedRes.email)
-                            window.localStorage.setItem('registering', true)
-                            window.location.href = "/register"
-                        }
-                        else {
-                            console.error('ERROR at /src/Login.js during login process. Line of code should be unreachable. Additional details following ' + parsedUserRes)
-                            alert("There was an issue logging you in. Refreshing page...")
-                            window.location.reload();
-                        }
-                    })
-            }
-        })
-}
-
-const responseGoogleFail = (res) => {
-    alert("Login failed. Refreshing page...")
-    window.location.reload();
-}
-
 function Login() {
     window.localStorage.clear()
+
+    const responseGoogle = (res) => {
+        fetch('http://holorecord.ajessen.com/googleAuth/validateToken', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ access_token: res.accessToken, email: res.profileObj.email, google_id: res.googleId })
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(parsedRes => {
+                if (parsedRes.error) {
+                    alert("Login failed. Refreshing page...")
+                    window.location.reload();
+                }
+                else {
+                    fetch('http://holorecord.ajessen.com/users/exists', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ google_id: parsedRes.user_id })
+                    })
+                        .then(usersRes => {
+                            return usersRes.json()
+                        })
+                        .then(parsedUserRes => {
+                            console.log(parsedUserRes)
+                            if (!parsedUserRes.error) {
+                                window.localStorage.setItem('user_id', parsedUserRes.user_id)
+                                window.location.href = "/main"
+                            }
+                            else if (parsedUserRes.error === "User could not be found or does not exist") {
+                                window.localStorage.setItem('gid', parsedRes.user_id)
+                                window.localStorage.setItem('user_email', parsedRes.email)
+                                window.localStorage.setItem('registering', true)
+                                window.location.href = "/register"
+                            }
+                            else {
+                                console.error('ERROR at /src/Login.js during login process. Line of code should be unreachable. Additional details following ' + parsedUserRes)
+                                alert("There was an issue logging you in. Refreshing page...")
+                                window.location.reload();
+                            }
+                        })
+                }
+            })
+    }
+    
+    const responseGoogleFail = (res) => {
+        alert("Login failed. Refreshing page...")
+        window.location.reload();
+    }
+    
     return (
         <div id="login-main">
             <GoogleLogin
