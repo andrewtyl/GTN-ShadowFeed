@@ -7,7 +7,7 @@ import Footer from './Footer';
 import Login from './Login';
 import Register from './Register';
 import Main from './Main';
-import Item from './Item';
+//import Item from './Item';
 
 class App extends Component {
 
@@ -42,19 +42,6 @@ class App extends Component {
             return (<body><Header navLinks="loggedIn" /><Main /><Footer /></body>)
           }}
         />
-        <Route
-          exact
-          path='/item/cmt'
-          render={() => {
-            return (<body><Header navLinks="loggedIn" /><Item item_id="2" /><Footer /></body>)
-          }}
-        />
-        <Route
-          exact
-          path='/item/ris'
-          render={() => {
-            return (<body><Header navLinks="loggedIn" /><Item item_id="1" /><Footer /></body>)
-          }}
         />
       </>
     )
