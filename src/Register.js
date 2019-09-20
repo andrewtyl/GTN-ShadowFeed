@@ -22,18 +22,35 @@ const regSubmit = e => {
         })
         .then(parsedPostRes => {
             if (!parsedPostRes.error) {
-                console.log(parsedPostRes)
-                console.log(parsedPostRes[0].user_id)
                 const user_id = parsedPostRes[0].user_id
                 window.localStorage.clear()
                 window.localStorage.setItem('user_id', user_id)
-                window.location.href = "/main"
+                let newDB = { "owner_user_id": user_id, "server_name": "Satele Shan" };
+                fetch('http://holorecord.ajessen.com/db/newDB', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(newDB)
+                })
+                    .then(newDBres => {
+                        if (!newDBres.error) {
+                            window.location.href = "/main"
+                        }
+                        else {
+                            errorThrown = true;
+                            console.error(`ERROR at /src/Register.js while POSTing to /db/newDB for user ${user_id}. Please set up their databases manually.`)
+                            alert("There was an issue creating your databases. Please contact support ASAP so you can login properly.")
+                            window.location.href = "/"
+                        }
+                    })
             }
             else {
                 errorThrown = true;
                 console.error('ERROR at /src/Register.js while POSTing to /users/NewUser. Additional details following ' + parsedPostRes.error)
                 alert("There was an issue registering your account. Please try logging in again. Redirecting...")
-                window.location.href= "/login"
+                window.location.href = "/login"
             }
         })
         .catch(error => {
