@@ -16,13 +16,13 @@ class Header extends React.Component {
    
     render() {
         let navLinks;
-        if (this.props.navLinks == "loggedOut") {
+        if (this.props.navLinks === "loggedOut") {
             navLinks = <a href="/login">Log In</a>
         }
-        else if (this.props.navLinks == "registering") {
+        else if (this.props.navLinks === "registering") {
             navLinks = <a href="/">Log Out</a>            
         }
-        else if (this.props.navLinks == "loggedIn") {
+        else if (this.props.navLinks === "loggedIn") {
             navLinks = <a href="/main">Main</a>
         }
         else {
@@ -35,7 +35,7 @@ class Header extends React.Component {
             <img id="headerImgA" src="https://picsum.photos/300/100" alt="placeholder" />
             <img id="headerImgB" src="https://picsum.photos/100" alt="placeholder" />
         </a>
-        <a id="headerTextHolder" href="/" id="headerTextHolder">
+        <a id="headerTextHolder" href="/">
             <h1>GTN ShadowFeed</h1>
         </a>
         <Sidebar

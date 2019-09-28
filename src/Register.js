@@ -64,7 +64,7 @@ const regSubmit = e => {
 
 function Register() {
     const registering = window.localStorage.getItem('registering')
-    if (!(registering == 'true')) {
+    if (!(registering === 'true')) {
         window.location.href = "/login";
         return null;
     }
